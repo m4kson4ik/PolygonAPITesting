@@ -2,16 +2,15 @@ package org.example.utils.service;
 
 import io.restassured.http.ContentType;
 
-import org.apache.http.Header;
-import org.example.models.CreateUserRequest;
 import org.example.models.UserPojo;
+import org.example.utils.myInterface.UserApi;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
 
-public class UserService extends RestService {
+public class UserService extends RestService implements UserApi {
     private UserPojo user;
 
     @Override
@@ -63,7 +62,7 @@ public class UserService extends RestService {
                 .delete("/"+id).statusCode();
     }
 
-    public UserPojo editingUser(int id, CreateUserRequest model) {
+    public UserPojo editingUser(int id, UserPojo model) {
         return given()
                 .spec(REQ_SPEC)
                 .body(model)

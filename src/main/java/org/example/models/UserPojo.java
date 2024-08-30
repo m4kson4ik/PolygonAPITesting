@@ -1,10 +1,7 @@
 package org.example.models;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -13,19 +10,28 @@ import java.text.DecimalFormat;
 @Builder
 @NoArgsConstructor
 public class UserPojo {
-    public Integer id;
-    public String firstName;
-    public String secondName;
-    public int age;
-    public String sex;
-    public double money;
+    private Integer id;
 
-    public UserPojo(Integer id, String firstName, String secondName, Integer age, String sex, double money) {
-        this.money = money;
-        this.sex = sex;
-        this.age = age;
-        this.secondName = secondName;
-        this.firstName = firstName;
+    public Integer getId() {
+        return id;
+    }
+
+    public double getMoney() {
+        return money;
+    }
+
+    private String firstName;
+    private String secondName;
+    private int age;
+    private String sex;
+    private double money;
+
+    public UserPojo(Integer id, String firstName, String secondName, int age, String sex, double money) {
         this.id = id;
+        this.firstName = firstName;
+        this.secondName = secondName;
+        this.age = age;
+        this.sex = sex;
+        this.money = money;
     }
 }

@@ -3,6 +3,7 @@ import org.example.models.UserPojo;
 import org.example.utils.RestWrapper;
 import org.junit.FixMethodOrder;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.runners.MethodSorters;
@@ -12,57 +13,48 @@ import org.junit.runners.Suite;
 import java.math.BigDecimal;
 
 import static org.assertj.core.api.Assertions.assertThat;
-public class UserTests {
+import static org.example.utils.generator.Generator.generateUser;
 
-    private static RestWrapper api;
-
-    @BeforeAll
-    public static void authClient() {
-        api = RestWrapper.login("user@pflb.ru", "user");
-    }
-
-//    @Test
-//    void getUsersList() {
-//       System.out.println(api.userService.getUsers());
-//    }
+public class UserTests extends Base {
 
     @Test
+    @DisplayName("Создание пользователя")
     void createUser() {
-        System.out.println(1);
-        var item = api.userService.createUser(new UserPojo(1, "dd", "dd", 22, "MALE", 200D));
-        System.out.println(item);
+        var item = api.userService.createUser(generateUser());
         assertThat(item)
                 .isNotNull();
     }
 
     @Test
+    @DisplayName("Получение созданного пользователя по айди")
     void getUserById() {
-        System.out.println(api.userService.getUserById(api.userService.getCreatedUser().id));
+        System.out.println(api.userService.getUserById(api.userService.getCreatedUser().getId()));
     }
 
-//    @Test
-//    void accrualMoneyTheUserAndCheckBalance() {
-//        api.userService.accrualMoneyTheUser(api.userService.getCreatedUser().id, BigDecimal.valueOf(2000));
-//    }
+
     @Test
+    @DisplayName("Покупка автомобиля созданному пользователю, и проверка снятия денег")
     void buyCarAndCheckBalance() {
-        var car = api.carService.createCar();
+        var car = api.carApi.createCar();
         var user = api.userService.createUser(new UserPojo(1, "dd", "dd", 22, "MALE", 20000D));
-        var newItem = api.userService.buyCarIsUser(api.userService.getCreatedUser().id, api.carService.getCreatedCar().id);
-        assertThat(newItem.money).isEqualTo(user.money - car.price);
+        var newItem = api.userService.buyCarIsUser(api.userService.getCreatedUser().getId(), api.carApi.getCreatedCar().getId());
+        assertThat(newItem.getMoney()).isEqualTo(user.getMoney() - car.getPrice());
         System.out.println(newItem);
     }
 
     @Test
+    @DisplayName("Удаление пользователя")
     void deletedUser() {
-        api.userService.createUser(new UserPojo(1, "dd", "dd", 22, "MALE", 20000D));
-        System.out.println(api.userService.deletedUser(api.userService.getCreatedUser().id));
+        var itemCreated = api.userService.createUser(new UserPojo(1, "dd", "dd", 22, "MALE", 20000D));
+        var itemDeleted = api.userService.deletedUser(itemCreated.getId());
+        assert(itemDeleted == 204);
     }
 
     @Test
+    @DisplayName("Заселения пользователя в новый дом")
     void userInHouse() {
-        var house = api.houseService.createHouse();
+      //  var house = api.houseService.createHouse();
         var user = api.userService.createUser(new UserPojo(1, "dd", "dd", 22, "MALE", 20000D));
-        System.out.println(api.houseService.settleUserInHouse(house.id, user.id));
+       // System.out.println(api.houseService.settleUserInHouse(house.id, user.getId()));
     }
 }

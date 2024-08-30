@@ -3,12 +3,13 @@ package org.example.utils.service;
 
 
 import org.example.models.House.HousePojo;
+import org.example.utils.generator.Generator;
 
 import java.util.ArrayList;
 
 import static io.restassured.RestAssured.given;
 
-public class HouseService extends RestService{
+public class HouseService extends RestService {
     public HouseService(String token) {
         super(token);
     }
@@ -21,7 +22,7 @@ public class HouseService extends RestService{
     public HousePojo createHouse() {
         return given()
                 .spec(REQ_SPEC)
-                .body(new HousePojo(1, 22, 2222, new ArrayList<>(), new ArrayList<>()))
+                .body(Generator.generateHouse())
                 .log().all()
                 .post().as(HousePojo.class);
     }

@@ -13,20 +13,23 @@ import lombok.NoArgsConstructor;
 public class CarPojo {
     @SerializedName("engineType")
     private String engineType;
-    @SerializedName("id")
-    public Long id;
-    @SerializedName("mark")
+    private Long id;
     private String mark;
-    @SerializedName("model")
     private String model;
-    @SerializedName("price")
-    public Double price;
+    private Double price;
 
-    public CarPojo(String mEngineType, Long mId, String mMark, String mModel, Double mPrice) {
-        this.engineType = mEngineType;
-        this.id = mId;
-        this.mark = mMark;
-        this.model = mModel;
-        this.price = mPrice;
+    public CarPojo(String engineType, Long id, String mark, String model, Double price) {
+        this.engineType = engineType;
+        this.id = id;
+        this.mark = mark;
+        this.model = model;
+        this.price = price;
+    }
+
+    public Long getId() {
+        return id;
+    }
+    public Double getPrice() {
+        return price;
     }
 }
